@@ -12,14 +12,14 @@ import FlatListContainer from '../components/FlatList';
 
 const {width} = Dimensions.get('window');
 
-const EmojiPicker = () => {
+const EmojiPicker = ({navigation}) => {
   const [tones, setTones] = useState();
 
   const onSelect = emoji => {
     if (emoji.skin_variations) {
       setTones(emoji.images);
     } else {
-      console.log('hello');
+      navigation.navigate('Home');
       setTones([]);
     }
   };
