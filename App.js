@@ -20,18 +20,11 @@ const {width, height} = Dimensions.get('window');
 const App = () => {
   const [tones, setTones] = useState();
 
-  // function unifiedToNative(unified) {
-  //   var unicodes = unified.split('-'),
-  //     codePoints = unicodes.map(u => `0x${u}`);
-
-  //   return String.fromCodePoint.apply(null, codePoints);
-  // }
-
   const onSelect = emoji => {
     if (emoji.skin_variations) {
       setTones(emoji.images);
     } else {
-      alert('selected');
+      console.log('hello');
       setTones([]);
     }
   };
