@@ -1,9 +1,7 @@
 var emojiData = require('emoji-datasource-google');
 var fs = require('fs');
 
-const filtered = emojiData.filter(
-  emoji => emoji.has_img_google === true && emoji.category === 'People & Body',
-);
+const filtered = emojiData.filter(emoji => emoji.has_img_google === true);
 
 var key = `has_img_google`;
 
