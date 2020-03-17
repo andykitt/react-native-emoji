@@ -4,9 +4,8 @@ import Emoji from './Emoji';
 
 class FlatListContainer extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
-    return nextProps !== 'hello';
+    return nextProps.onSelect != this.props.onSelect;
   }
-
   renderItem = item => <Emoji emoji={item} onSelect={this.props.onSelect} />;
 
   render() {
