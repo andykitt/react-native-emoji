@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   Dimensions,
+  Animated,
 } from 'react-native';
 import Image from '../components/Image';
 import {emojis} from '../google';
@@ -14,30 +15,50 @@ const {width} = Dimensions.get('window');
 
 const EmojiPicker = ({navigation}) => {
   const [tones, setTones] = useState();
+  const [height] = useState(new Animated.Value(0));
 
   const onSelect = emoji => {
     if (emoji.skin_variations) {
       setTones(emoji.images);
+      showBox();
     } else {
       navigation.navigate('Home');
       setTones([]);
     }
   };
 
+  const hideBox = () => {
+    Animated.timing(height, {
+      toValue: 0,
+    }).start();
+  };
+
+  const showBox = () => {
+    Animated.timing(height, {
+      toValue: 100,
+    }).start();
+  };
+
+  const handleScroll = () => {
+    hideBox();
+  };
+
   return (
     <SafeAreaView>
-      {tones && Boolean(tones.length) && (
-        <View style={styles.skinEmojiWrapper}>
-          {tones.slice(0, 6).map((image, i) => (
-            <TouchableOpacity key={i} onPress={() => onSelect(image)}>
-              <View style={styles.emojiWrapper}>
-                <Image source={image} style={styles.imageStyle} />
-              </View>
-            </TouchableOpacity>
-          ))}
-        </View>
-      )}
-      <FlatListContainer emojis={emojis} onSelect={onSelect} />
+      <Animated.View style={[styles.skinEmojiWrapper, {height: height}]}>
+        {tones?.slice(0, 6).map((image, i) => (
+          <TouchableOpacity key={i} onPress={() => onSelect(image)}>
+            <View style={styles.emojiWrapper}>
+              <Image source={image} style={styles.imageStyle} />
+            </View>
+          </TouchableOpacity>
+        ))}
+      </Animated.View>
+      <FlatListContainer
+        emojis={emojis}
+        onSelect={onSelect}
+        handleScroll={handleScroll}
+      />
     </SafeAreaView>
   );
 };
@@ -54,8 +75,8 @@ const styles = StyleSheet.create({
   },
   skinEmojiWrapper: {
     width: width,
-    height: 100,
     position: 'absolute',
+    top: 0,
     alignItems: 'flex-end',
     justifyContent: 'center',
     shadowColor: '#000',
