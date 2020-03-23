@@ -9,13 +9,14 @@ class FlatListContainer extends React.Component {
   renderItem = item => <Emoji emoji={item} onSelect={this.props.onSelect} />;
 
   render() {
-    const {emojis} = this.props;
+    const {emojis, handleScroll} = this.props;
     return (
       <FlatList
         keyExtractor={item => item.unified}
         data={emojis}
         numColumns={6}
         windowSize={6}
+        onScrollBeginDrag={handleScroll}
         contentContainerStyle={{
           alignItems: 'flex-start',
           justifyContent: 'center',
